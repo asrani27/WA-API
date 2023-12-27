@@ -150,11 +150,11 @@ async function connectToWhatsApp() {
                 //kecilkan semua pesan yang masuk lowercase 
                 const pesanMasuk = pesan.toLowerCase();
 
-                if (!messages[0].key.fromMe && pesanMasuk === "ping") {
-                    await sock.sendMessage(noWa, { text: "Pong" }, { quoted: messages[0] });
-                } else {
-                    await sock.sendMessage(noWa, { text: "Saya adalah Bot!" }, { quoted: messages[0] });
-                }
+                // if (!messages[0].key.fromMe && pesanMasuk === "ping") {
+                //     await sock.sendMessage(noWa, { text: "Pong" }, { quoted: messages[0] });
+                // } else {
+                //     await sock.sendMessage(noWa, { text: "Saya adalah Bot!" }, { quoted: messages[0] });
+                // }
             }
         }
     });
