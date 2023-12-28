@@ -204,8 +204,9 @@ const updateQR = (data) => {
 app.post("/send-message", async (req, res) => {
     //console.log(req);
     const pesankirim = req.body.message;
-    const number = req.body.number;
+    // const number = req.body.number;
     const fileDikirim = req.files;
+    const { number, ...content } = req.body
 
     let numberWA;
     try {
@@ -222,7 +223,8 @@ app.post("/send-message", async (req, res) => {
                 if (isConnected) {
                     const exists = await sock.onWhatsApp(numberWA);
                     if (exists?.jid || (exists && exists[0]?.jid)) {
-                        sock.sendMessage(exists.jid || exists[0].jid, { text: pesankirim })
+                        // sock.sendMessage(exists.jid || exists[0].jid, { text: pesankirim })
+                        sock.sendMessage(exists.jid || exists[0].jid, content)
                             .then((result) => {
                                 res.status(200).json({
                                     status: true,
@@ -279,12 +281,13 @@ app.post("/send-message", async (req, res) => {
                         let extensionName = path.extname(namafiledikirim);
                         //console.log(extensionName);
                         if (extensionName === '.jpeg' || extensionName === '.jpg' || extensionName === '.png' || extensionName === '.gif') {
-                            await sock.sendMessage(exists.jid || exists[0].jid, {
-                                image: {
-                                    url: namafiledikirim
-                                },
-                                caption: pesankirim
-                            }).then((result) => {
+                            await sock.sendMessage(exists.jid || exists[0].jid, content).then((result) => {
+                            // await sock.sendMessage(exists.jid || exists[0].jid, {
+                            //     image: {
+                            //         url: namafiledikirim
+                            //     },
+                            //     caption: pesankirim
+                            // }).then((result) => {
                                 if (fs.existsSync(namafiledikirim)) {
                                     fs.unlink(namafiledikirim, (err) => {
                                         if (err && err.code == "ENOENT") {
